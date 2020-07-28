@@ -2,6 +2,7 @@ import Server from './clases/server';
 import userRouter from './routes/usuarios';
 import mongoose from 'mongoose';
 import chalk from 'chalk';
+import bodyParser from 'body-parser';
 
 /**
  * express: Servidor web
@@ -16,6 +17,10 @@ import chalk from 'chalk';
 // Inicializamos la clase servidor
 const server = new Server();
  
+// Middlewars
+server.app.use(bodyParser.urlencoded({ extended: true }));
+server.app.use(bodyParser.json());
+
 // Routes
 server.app.use('/user', userRouter)
 

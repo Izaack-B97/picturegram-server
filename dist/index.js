@@ -7,6 +7,7 @@ const server_1 = __importDefault(require("./clases/server"));
 const usuarios_1 = __importDefault(require("./routes/usuarios"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const chalk_1 = __importDefault(require("chalk"));
+const body_parser_1 = __importDefault(require("body-parser"));
 /**
  * express: Servidor web
  * body-parser: Recibe los datos de una peticion post y lo convierte en un json
@@ -18,6 +19,9 @@ const chalk_1 = __importDefault(require("chalk"));
  */
 // Inicializamos la clase servidor
 const server = new server_1.default();
+// Middlewars
+server.app.use(body_parser_1.default.urlencoded({ extended: true }));
+server.app.use(body_parser_1.default.json());
 // Routes
 server.app.use('/user', usuarios_1.default);
 // Conectar con la bd
