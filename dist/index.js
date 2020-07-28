@@ -5,6 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = __importDefault(require("./clases/server"));
 const usuarios_1 = __importDefault(require("./routes/usuarios"));
+const mongoose_1 = __importDefault(require("mongoose"));
+const chalk_1 = __importDefault(require("chalk"));
 /**
  * express: Servidor web
  * body-parser: Recibe los datos de una peticion post y lo convierte en un json
@@ -18,5 +20,14 @@ const usuarios_1 = __importDefault(require("./routes/usuarios"));
 const server = new server_1.default();
 // Routes
 server.app.use('/user', usuarios_1.default);
+// Conectar con la bd
+mongoose_1.default.connect('mongodb://localhost:27017/picturesgram', { useNewUrlParser: true, useCreateIndex: true })
+    .then(result => {
+    console.log(chalk_1.default.green('CONECCTION SUCCESSFULLY TO DATABASE'));
+    // console.log(result);
+})
+    .catch(err => {
+    throw chalk_1.default.red('Error to conecction database: ' + err);
+});
 // Levantamos el servidor
 server.start(() => console.log(`Server on port ${server.port}`));

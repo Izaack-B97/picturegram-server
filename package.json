@@ -19,6 +19,8 @@
     "mongoose": "^5.9.26"
   },
   "devDependencies": {
-    "@types/express": "^4.17.7"
+    "@types/express": "^4.17.7",
+    "@types/mongoose": "^5.7.34",
+    "chalk": "^4.1.0"
   }
 }
