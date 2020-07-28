@@ -1,3 +1,6 @@
+import Server from './clases/server';
+import userRouter from './routes/usuarios';
+
 /**
  * express: Servidor web
  * body-parser: Recibe los datos de una peticion post y lo convierte en un json
@@ -8,4 +11,11 @@
  * bcrypt: Encripta las contraseñas de los usuarios
  */
 
-console.log('Hola isaac');
+// Inicializamos la clase servidor
+const server = new Server();
+ 
+// Routes
+server.app.use('/user', userRouter)
+
+// Levantamos el servidor
+server.start(() => console.log(`Server on port ${server.port}`));
