@@ -25,7 +25,7 @@ server.app.use(bodyParser.json());
 server.app.use('/user', userRouter)
 
 // Conectar con la bd
-mongoose.connect('mongodb://localhost:27017/picturesgram', { useNewUrlParser: true, useCreateIndex: true })
+mongoose.connect('mongodb://localhost:27017/picturesgram', { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
     .then(result => {
         console.log(chalk.green('CONECCTION SUCCESSFULLY TO DATABASE'))
         // console.log(result);
