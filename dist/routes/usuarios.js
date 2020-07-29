@@ -108,9 +108,5 @@ userRouter.put('/update', autenticacion_1.verficaToken, (req, res) => {
             token: userToken
         });
     });
-    // res.json({
-    //     ok: true,
-    //     usuario: req.usuario
-    // })
 });
 exports.default = userRouter;

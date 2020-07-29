@@ -119,11 +119,6 @@ userRouter.put('/update', verficaToken ,(req: any, res: Response) => {
             token: userToken
         });
     });
-
-    // res.json({
-    //     ok: true,
-    //     usuario: req.usuario
-    // })
 });
 
 export default userRouter;
