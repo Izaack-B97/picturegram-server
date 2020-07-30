@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = __importDefault(require("./clases/server"));
 const usuarios_1 = __importDefault(require("./routes/usuarios"));
+const post_1 = __importDefault(require("./routes/post"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const chalk_1 = __importDefault(require("chalk"));
 const body_parser_1 = __importDefault(require("body-parser"));
@@ -23,8 +24,8 @@ const server = new server_1.default();
 server.app.use(body_parser_1.default.urlencoded({ extended: true }));
 server.app.use(body_parser_1.default.json());
 // Routes
-server.app.get('/', (req, res) => res.json('Bienvenido a servicios rest de picturegram'));
 server.app.use('/user', usuarios_1.default);
+server.app.use('/posts', post_1.default);
 // Conectar con la bd
 mongoose_1.default.connect('mongodb://localhost:27017/picturesgram', { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
     .then(result => {
