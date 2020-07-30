@@ -9,6 +9,7 @@ const post_1 = __importDefault(require("./routes/post"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const chalk_1 = __importDefault(require("chalk"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const express_fileupload_1 = __importDefault(require("express-fileupload"));
 /**
  * express: Servidor web
  * body-parser: Recibe los datos de una peticion post y lo convierte en un json
@@ -20,9 +21,12 @@ const body_parser_1 = __importDefault(require("body-parser"));
  */
 // Inicializamos la clase servidor
 const server = new server_1.default();
-// Middlewars
+/*****  Middlewars   *****/
+// BodyParser
 server.app.use(body_parser_1.default.urlencoded({ extended: true }));
 server.app.use(body_parser_1.default.json());
+// FileUpload -> Los guardara en req.files
+server.app.use(express_fileupload_1.default());
 // Routes
 server.app.use('/user', usuarios_1.default);
 server.app.use('/posts', post_1.default);

@@ -1,6 +1,7 @@
 import  { Router, Response } from 'express';
 import { verficaToken } from '../middlewars/autenticacion';
 import Post from '../models/post.model';
+import { FileUpload } from '../interfaces/file-upload';
 
 const postRoutes = Router();
 
@@ -55,8 +56,41 @@ postRoutes.post('/', [ verficaToken ], (req: any, res: Response) => {
                 error: err
             });
         })
-
-    
 });
+
+// Servicio para subir archivos
+postRoutes.post('/upload', [verficaToken], (req: any, res: Response) => {
+    
+    
+    if (!req.files) {
+        return res.status(400).json({
+            ok: false,
+            message: 'No se subio ningun archivo'
+        });
+    }
+
+    const file: FileUpload = req.files.image;
+
+    // Validamos que exista la propiedad image
+    if (!file) {
+        return res.json({
+            ok: false,
+            message: 'No se subio ningun archivo - image'
+        });
+    }
+
+    // Validamos que sea una imagen lo que se sube
+    if (!file.mimetype.includes('image')) {
+        return res.json({
+            ok: false,
+            message: 'Lo que subio no es una imagen'
+        });
+    }
+
+    res.json({
+        ok: true,
+        file: file.mimetype
+    });
+})
 
 export default postRoutes;

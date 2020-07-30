@@ -4,6 +4,7 @@ import postRoutes from './routes/post';
 import mongoose from 'mongoose';
 import chalk from 'chalk';
 import bodyParser from 'body-parser';
+import fileUpload from 'express-fileupload';
 import { Request, Response } from 'express';
 
 /**
@@ -19,9 +20,13 @@ import { Request, Response } from 'express';
 // Inicializamos la clase servidor
 const server = new Server();
  
-// Middlewars
+/*****  Middlewars   *****/
+// BodyParser
 server.app.use(bodyParser.urlencoded({ extended: true }));
 server.app.use(bodyParser.json());
+// FileUpload -> Los guardara en req.files
+server.app.use(fileUpload());
+
 
 // Routes
 server.app.use('/user', userRouter)
