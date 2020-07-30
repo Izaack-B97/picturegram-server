@@ -3,6 +3,7 @@ import userRouter from './routes/usuarios';
 import mongoose from 'mongoose';
 import chalk from 'chalk';
 import bodyParser from 'body-parser';
+import { Request, Response } from 'express';
 
 /**
  * express: Servidor web
@@ -22,12 +23,13 @@ server.app.use(bodyParser.urlencoded({ extended: true }));
 server.app.use(bodyParser.json());
 
 // Routes
+server.app.get('/', (req: Request, res: Response) => res.json('Bienvenido a servicios rest de picturegram'));
 server.app.use('/user', userRouter)
 
 // Conectar con la bd
 mongoose.connect('mongodb://localhost:27017/picturesgram', { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
     .then(result => {
-        console.log(chalk.green('CONECCTION SUCCESSFULLY TO DATABASE'))
+        console.log(chalk.blue('CONECCTION SUCCESSFULLY TO DATABASE'))
         // console.log(result);
     })
     .catch(err => {

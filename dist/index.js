@@ -23,11 +23,12 @@ const server = new server_1.default();
 server.app.use(body_parser_1.default.urlencoded({ extended: true }));
 server.app.use(body_parser_1.default.json());
 // Routes
+server.app.get('/', (req, res) => res.json('Bienvenido a servicios rest de picturegram'));
 server.app.use('/user', usuarios_1.default);
 // Conectar con la bd
 mongoose_1.default.connect('mongodb://localhost:27017/picturesgram', { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
     .then(result => {
-    console.log(chalk_1.default.green('CONECCTION SUCCESSFULLY TO DATABASE'));
+    console.log(chalk_1.default.blue('CONECCTION SUCCESSFULLY TO DATABASE'));
     // console.log(result);
 })
     .catch(err => {
