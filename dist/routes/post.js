@@ -16,6 +16,29 @@ const express_1 = require("express");
 const autenticacion_1 = require("../middlewars/autenticacion");
 const post_model_1 = __importDefault(require("../models/post.model"));
 const postRoutes = express_1.Router();
+// Obtener posts paginados
+postRoutes.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    /**
+     * Los query params son opcionales y se representan de la siguiente manera:
+     * http://localhost/posts/?pagina=2
+     */
+    let pagina = Number(req.query.pagina) || 1; // En caso de que el usuario no mande la pagina mandamos la 1
+    let skip = pagina - 1;
+    skip = skip * 10;
+    const posts = yield post_model_1.default
+        .find()
+        .sort({ _id: -1 }) // Lo ordena de manera descendente el id con el -1
+        .limit(10) // Limitamos la consulta solo a unos 10 registros
+        .skip(skip)
+        .populate('usuario', '-password') // Traemos la referencia
+        .exec(); // Ejecutamos la sentencia 
+    res.json({
+        ok: true,
+        pagina: pagina,
+        posts: posts
+    });
+}));
+// Crear posts
 postRoutes.post('/', [autenticacion_1.verficaToken], (req, res) => {
     const data = req.body;
     data.usuario = req.usuario._id;
