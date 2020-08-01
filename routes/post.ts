@@ -2,8 +2,10 @@ import  { Router, Response } from 'express';
 import { verficaToken } from '../middlewars/autenticacion';
 import Post from '../models/post.model';
 import { FileUpload } from '../interfaces/file-upload';
+import FileSystem from '../clases/file-system';
 
 const postRoutes = Router();
+const fileSystem = new FileSystem();
 
 // Obtener posts paginados
 postRoutes.get('/', async (req: any, res: Response) => {
@@ -61,7 +63,6 @@ postRoutes.post('/', [ verficaToken ], (req: any, res: Response) => {
 // Servicio para subir archivos
 postRoutes.post('/upload', [verficaToken], (req: any, res: Response) => {
     
-    
     if (!req.files) {
         return res.status(400).json({
             ok: false,
@@ -86,6 +87,11 @@ postRoutes.post('/upload', [verficaToken], (req: any, res: Response) => {
             message: 'Lo que subio no es una imagen'
         });
     }
+
+    const userID = req.usuario._id; // El userID esta en el token
+    
+    // Creamos la ruta de la imagen temporal
+    fileSystem.guardarImagenTemporal(file, userID);
 
     res.json({
         ok: true,

@@ -15,7 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const autenticacion_1 = require("../middlewars/autenticacion");
 const post_model_1 = __importDefault(require("../models/post.model"));
+const file_system_1 = __importDefault(require("../clases/file-system"));
 const postRoutes = express_1.Router();
+const fileSystem = new file_system_1.default();
 // Obtener posts paginados
 postRoutes.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     /**
@@ -85,6 +87,9 @@ postRoutes.post('/upload', [autenticacion_1.verficaToken], (req, res) => {
             message: 'Lo que subio no es una imagen'
         });
     }
+    const userID = req.usuario._id; // El userID esta en el token
+    // Creamos la ruta de la imagen temporal
+    fileSystem.guardarImagenTemporal(file, userID);
     res.json({
         ok: true,
         file: file.mimetype
