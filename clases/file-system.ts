@@ -7,13 +7,28 @@ export default class FileSystem {
     constructor () {}
 
     guardarImagenTemporal (file: FileUpload, userID: string) {
-        // Crear carpetas
-        const path = this.crearCarpetaUsuario(userID);
-        
-        // Nombre archivo
-        const nombreArchivo = this.generarNombreUnico(file.name);
-        console.log(file.name);
-        console.log(nombreArchivo);
+
+        return new Promise((resolve, reject) => {
+            const ruta = this.crearCarpetaUsuario(userID);
+            // Crear carpetas
+            //   console.log(ruta);
+
+            // Nombre archivo
+            const nombreArchivo = this.generarNombreUnico(file.name);
+            // Ruta final donde se guardara la imagen
+            const endpoint = path.resolve(ruta, nombreArchivo);
+            // Mover el archivo de la carpeta Temp a nuestra carpeta
+            file.mv(endpoint, (err: any) => {
+                if (err) {
+                    // No se pudo mover
+                    // console.log(path)
+                    reject(err);
+                } else {
+                    // Todo salio bien
+                    resolve();
+                }
+            }); 
+        });
     }
 
     private generarNombreUnico(nombreOriginal: String) {
@@ -25,7 +40,7 @@ export default class FileSystem {
         return `${idUnico}.${extension}`;
     }
 
-    private async crearCarpetaUsuario (userID: string) {
+    private crearCarpetaUsuario (userID: string) {
         const pathUser = path.resolve( __dirname, '../uploads', userID ); 
         const pathUserTemp = path.resolve(pathUser, 'temp');
         const existe = fs.existsSync(pathUser);
@@ -38,10 +53,7 @@ export default class FileSystem {
         // Creamos el directorio 
         if (!existe) {
             fs.mkdirSync(pathUser);
-            fs.mkdtempSync(pathUserTemp);
-
-            console.log(pathUser);
-            console.error(pathUserTemp);
+            fs.mkdirSync(pathUserTemp);
         }
 
         return pathUserTemp;

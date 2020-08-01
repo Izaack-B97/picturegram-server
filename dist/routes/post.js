@@ -65,7 +65,7 @@ postRoutes.post('/', [autenticacion_1.verficaToken], (req, res) => {
     });
 });
 // Servicio para subir archivos
-postRoutes.post('/upload', [autenticacion_1.verficaToken], (req, res) => {
+postRoutes.post('/upload', [autenticacion_1.verficaToken], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.files) {
         return res.status(400).json({
             ok: false,
@@ -89,10 +89,10 @@ postRoutes.post('/upload', [autenticacion_1.verficaToken], (req, res) => {
     }
     const userID = req.usuario._id; // El userID esta en el token
     // Creamos la ruta de la imagen temporal
-    fileSystem.guardarImagenTemporal(file, userID);
+    yield fileSystem.guardarImagenTemporal(file, userID);
     res.json({
         ok: true,
         file: file.mimetype
     });
-});
+}));
 exports.default = postRoutes;

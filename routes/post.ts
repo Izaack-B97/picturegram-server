@@ -61,7 +61,7 @@ postRoutes.post('/', [ verficaToken ], (req: any, res: Response) => {
 });
 
 // Servicio para subir archivos
-postRoutes.post('/upload', [verficaToken], (req: any, res: Response) => {
+postRoutes.post('/upload', [verficaToken], async (req: any, res: Response) => {
     
     if (!req.files) {
         return res.status(400).json({
@@ -91,7 +91,7 @@ postRoutes.post('/upload', [verficaToken], (req: any, res: Response) => {
     const userID = req.usuario._id; // El userID esta en el token
     
     // Creamos la ruta de la imagen temporal
-    fileSystem.guardarImagenTemporal(file, userID);
+    await fileSystem.guardarImagenTemporal(file, userID);
 
     res.json({
         ok: true,
