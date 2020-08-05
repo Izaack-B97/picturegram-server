@@ -44,6 +44,8 @@ postRoutes.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 postRoutes.post('/', [autenticacion_1.verficaToken], (req, res) => {
     const data = req.body;
     data.usuario = req.usuario._id;
+    const imagenes = fileSystem.imagenesDeTempHaciaPost(req.usuario._id);
+    data.imgs = imagenes;
     post_model_1.default.create(data)
         .then((postDB) => __awaiter(void 0, void 0, void 0, function* () {
         /**
@@ -95,4 +97,14 @@ postRoutes.post('/upload', [autenticacion_1.verficaToken], (req, res) => __await
         file: file.mimetype
     });
 }));
+// Ruta para mostrar las imagenes
+postRoutes.get('/imagen/:userid/:img', (req, res) => {
+    const userID = req.params.userid;
+    const img = req.params.img;
+    const pathFoto = fileSystem.getFotoUrl(userID, img);
+    // res.json({
+    //     pathFoto
+    // });
+    res.sendFile(pathFoto);
+});
 exports.default = postRoutes;

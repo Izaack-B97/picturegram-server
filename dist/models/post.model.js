@@ -4,7 +4,7 @@ const mongoose_1 = require("mongoose");
 const configSchema = {
     created: { type: Date },
     mensaje: { type: String },
-    img: [{ type: String }],
+    imgs: [{ type: String }],
     coords: { type: String },
     usuario: {
         // Mantendremos una relacion con usuario

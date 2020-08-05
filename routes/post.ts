@@ -38,6 +38,9 @@ postRoutes.post('/', [ verficaToken ], (req: any, res: Response) => {
     const data = req.body;
     data.usuario = req.usuario._id;
 
+    const imagenes = fileSystem.imagenesDeTempHaciaPost(req.usuario._id);
+    data.imgs = imagenes;
+
     Post.create(data)
         .then(async postDB => {
             /**
@@ -98,5 +101,18 @@ postRoutes.post('/upload', [verficaToken], async (req: any, res: Response) => {
         file: file.mimetype
     });
 })
+
+// Ruta para mostrar las imagenes
+postRoutes.get('/imagen/:userid/:img', (req: any, res: Response) => {
+    const userID = req.params.userid;
+    const img = req.params.img;
+
+    const pathFoto = fileSystem.getFotoUrl(userID, img);
+
+    // res.json({
+    //     pathFoto
+    // });
+    res.sendFile(pathFoto);
+});
 
 export default postRoutes;

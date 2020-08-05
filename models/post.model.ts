@@ -3,7 +3,7 @@ import { Schema, Document, model } from 'mongoose';
 const configSchema = {
     created : { type: Date },
     mensaje: { type: String },
-    img: [{ type: String }],
+    imgs: [{ type: String }],
     coords: { type: String }, // -13.133, 123.432
     usuario: {
         // Mantendremos una relacion con usuario

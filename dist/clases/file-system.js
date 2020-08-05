@@ -11,7 +11,6 @@ class FileSystem {
     guardarImagenTemporal(file, userID) {
         return new Promise((resolve, reject) => {
             const ruta = this.crearCarpetaUsuario(userID);
-            // Crear carpetas
             //   console.log(ruta);
             // Nombre archivo
             const nombreArchivo = this.generarNombreUnico(file.name);
@@ -39,7 +38,7 @@ class FileSystem {
     }
     crearCarpetaUsuario(userID) {
         const pathUser = path_1.default.resolve(__dirname, '../uploads', userID);
-        const pathUserTemp = path_1.default.resolve(pathUser, 'temp');
+        const pathUserTemp = path_1.default.join(pathUser, 'temp');
         const existe = fs_1.default.existsSync(pathUser);
         // console.log(pathUser);
         // console.log(pathUserTemp)
@@ -50,6 +49,33 @@ class FileSystem {
             fs_1.default.mkdirSync(pathUserTemp);
         }
         return pathUserTemp;
+    }
+    imagenesDeTempHaciaPost(userID) {
+        const pathTemp = path_1.default.resolve(__dirname, '../uploads', userID, 'temp');
+        const pathPost = path_1.default.resolve(__dirname, '../uploads', userID, 'posts');
+        if (!fs_1.default.existsSync(pathTemp)) {
+            return [];
+        }
+        if (!fs_1.default.existsSync(pathPost)) {
+            fs_1.default.mkdirSync(pathPost);
+        }
+        const imagenesTemp = this.obtenerImagenesEnTemp(userID, pathTemp);
+        imagenesTemp.forEach(imagen => {
+            fs_1.default.renameSync(`${pathTemp}/${imagen}`, `${pathPost}/${imagen}`); // Las renombra y las mueve al fichero de posts
+        });
+        return imagenesTemp; // Retornamos los nombres de las imagenes
+    }
+    obtenerImagenesEnTemp(userID, pathTemp) {
+        return fs_1.default.readdirSync(pathTemp) || []; // Si no hay imagenes o no existiera mandamoria un undefined
+    }
+    getFotoUrl(userID, img) {
+        const pathFoto = path_1.default.resolve(__dirname, '../uploads', userID, 'posts', img);
+        const existe = fs_1.default.existsSync(pathFoto);
+        console.log(existe);
+        if (!existe) {
+            return path_1.default.resolve(__dirname, '../assets/400x250.jpg');
+        }
+        return pathFoto;
     }
 }
 exports.default = FileSystem;
