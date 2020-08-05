@@ -109,4 +109,12 @@ userRouter.put('/update', autenticacion_1.verficaToken, (req, res) => {
         });
     });
 });
+// Esta ruta enviara el token del usuario una vez que este autenticado
+userRouter.get('/', [autenticacion_1.verficaToken], (req, res) => {
+    const usuario = req.usuario;
+    res.json({
+        ok: true,
+        usuario
+    });
+});
 exports.default = userRouter;
