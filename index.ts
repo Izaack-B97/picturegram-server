@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import chalk from 'chalk';
 import bodyParser from 'body-parser';
 import fileUpload from 'express-fileupload';
-import { Request, Response } from 'express';
+import cors from 'cors';
 
 /**
  * express: Servidor web
@@ -26,6 +26,9 @@ server.app.use(bodyParser.urlencoded({ extended: true }));
 server.app.use(bodyParser.json());
 // FileUpload -> Los guardara en req.files
 server.app.use(fileUpload());
+
+// Configuracion del CORS -> Configuracion basica para permitir peticiones de otras aplicaciones
+server.app.use(cors({ origin: true, credentials: true }));
 
 
 // Routes

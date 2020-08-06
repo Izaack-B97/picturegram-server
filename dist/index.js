@@ -10,6 +10,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const chalk_1 = __importDefault(require("chalk"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
+const cors_1 = __importDefault(require("cors"));
 /**
  * express: Servidor web
  * body-parser: Recibe los datos de una peticion post y lo convierte en un json
@@ -27,6 +28,8 @@ server.app.use(body_parser_1.default.urlencoded({ extended: true }));
 server.app.use(body_parser_1.default.json());
 // FileUpload -> Los guardara en req.files
 server.app.use(express_fileupload_1.default());
+// Configuracion del CORS -> Configuracion basica para permitir peticiones de otras aplicaciones
+server.app.use(cors_1.default({ origin: true, credentials: true }));
 // Routes
 server.app.use('/user', usuarios_1.default);
 server.app.use('/posts', post_1.default);
